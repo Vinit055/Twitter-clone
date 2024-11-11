@@ -42,7 +42,7 @@ class TweetCard extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             //re tweeted TODO
-                        
+
                             //user name & no. of hours since tweet
                             Row(
                               children: [
@@ -67,17 +67,17 @@ class TweetCard extends ConsumerWidget {
                               ],
                             ),
                             // replied to TODO
-                        
+
                             // tweet text
                             HashtagsText(text: tweet.text),
-                        
+
                             // show images
                             if (tweet.tweetType == TweetType.image)
                               CarouselImage(imageLinks: tweet.imageLinks),
                             if (tweet.link.isNotEmpty) ...[
                               const SizedBox(height: 4),
                               AnyLinkPreview(
-                                link: 'https://${tweet.link}',
+                                link: tweet.link,
                                 displayDirection:
                                     UIDirection.uiDirectionHorizontal,
                               ),
@@ -101,8 +101,7 @@ class TweetCard extends ConsumerWidget {
                                   ),
                                   TweetIconButton(
                                     pathName: AssetsConstants.commentIcon,
-                                    text:
-                                        (tweet.commentIds.length).toString(),
+                                    text: (tweet.commentIds.length).toString(),
                                     onTap: () {},
                                   ),
                                   TweetIconButton(
@@ -111,8 +110,7 @@ class TweetCard extends ConsumerWidget {
                                     onTap: () {},
                                   ),
                                   TweetIconButton(
-                                    pathName:
-                                        AssetsConstants.likeOutlinedIcon,
+                                    pathName: AssetsConstants.likeOutlinedIcon,
                                     text: (tweet.likes.length).toString(),
                                     onTap: () {},
                                   ),
