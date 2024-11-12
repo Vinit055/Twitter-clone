@@ -110,7 +110,7 @@ class TweetCard extends ConsumerWidget {
                                   // replied to
                                   if (tweet.repliedTo.isNotEmpty)
                                     ref
-                                        .read(getTweetByIdProvider(
+                                        .watch(getTweetByIdProvider(
                                             tweet.repliedTo))
                                         .when(
                                           data: (repliedToTweet) {
@@ -266,7 +266,7 @@ class TweetCard extends ConsumerWidget {
                         ),
                         const Divider(
                           color: Pallete.greyColor,
-                          thickness: 0.2,
+                          // thickness: 1,
                         ),
                       ],
                     ),
