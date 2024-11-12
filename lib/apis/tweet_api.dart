@@ -19,6 +19,8 @@ abstract class ITweetAPI {
   Stream<RealtimeMessage> getLatestTweet();
   FutureEither<Document> likeTweet(Tweet tweet);
   FutureEither<Document> updateReshareCount(Tweet tweet);
+  Future<List<Document>> getRepliedsToTweet(Tweet tweet);
+  Future<Document> getTweetById(String id);
 }
 
 class TweetAPI implements ITweetAPI {
@@ -74,9 +76,9 @@ class TweetAPI implements ITweetAPI {
       'databases.${AppwriteConstants.databaseId}.collections.${AppwriteConstants.tweetsCollection}.documents'
     ]).stream;
   }
-  
+
   @override
-  FutureEither<Document> likeTweet(Tweet tweet) async{
+  FutureEither<Document> likeTweet(Tweet tweet) async {
     try {
       final document = await _db.updateDocument(
         databaseId: AppwriteConstants.databaseId,
@@ -103,9 +105,9 @@ class TweetAPI implements ITweetAPI {
       );
     }
   }
-  
+
   @override
-  FutureEither<Document> updateReshareCount(Tweet tweet) async{
+  FutureEither<Document> updateReshareCount(Tweet tweet) async {
     try {
       final document = await _db.updateDocument(
         databaseId: AppwriteConstants.databaseId,
@@ -131,5 +133,26 @@ class TweetAPI implements ITweetAPI {
         ),
       );
     }
+  }
+
+  @override
+  Future<List<Document>> getRepliedsToTweet(Tweet tweet) async {
+    final document = await _db.listDocuments(
+      databaseId: AppwriteConstants.databaseId,
+      collectionId: AppwriteConstants.tweetsCollection,
+      queries: [
+        Query.equal('repliedTo', tweet.id),
+      ],
+    );
+    return document.documents;
+  }
+
+  @override
+  Future<Document> getTweetById(String id) async {
+    return _db.getDocument(
+      databaseId: AppwriteConstants.databaseId,
+      collectionId: AppwriteConstants.tweetsCollection,
+      documentId: id,
+    );
   }
 }
