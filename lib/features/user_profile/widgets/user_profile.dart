@@ -109,7 +109,7 @@ class UserProfile extends ConsumerWidget {
                               count: user.following.length,
                               text: 'Following',
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: 13),
                             FollowCount(
                               count: user.followers.length,
                               text: 'Followers',
