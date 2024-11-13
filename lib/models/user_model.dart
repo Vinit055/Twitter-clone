@@ -11,6 +11,10 @@ class UserModel {
   final String uid;
   final String bio;
   final bool isTwitterBlue;
+
+  static const String defaultProfilePic =
+      'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg';
+
   const UserModel({
     required this.email,
     required this.name,
@@ -54,7 +58,8 @@ class UserModel {
     result.addAll({'name': name});
     result.addAll({'followers': followers});
     result.addAll({'following': following});
-    result.addAll({'profilePic': profilePic});
+    result.addAll(
+        {'profilePic': profilePic == defaultProfilePic ? '' : profilePic});
     result.addAll({'bannerPic': bannerPic});
     result.addAll({'bio': bio});
     result.addAll({'isTwitterBlue': isTwitterBlue});
@@ -63,12 +68,13 @@ class UserModel {
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
+    String profilePicValue = map['profilePic'] ?? '';
     return UserModel(
       email: map['email'] ?? '',
       name: map['name'] ?? '',
       followers: List<String>.from(map['followers']),
       following: List<String>.from(map['following']),
-      profilePic: map['profilePic'] ?? '',
+      profilePic: profilePicValue.isEmpty ? defaultProfilePic : profilePicValue,
       bannerPic: map['bannerPic'] ?? '',
       uid: map['\$id'] ?? '',
       bio: map['bio'] ?? '',
