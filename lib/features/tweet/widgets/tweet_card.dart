@@ -12,6 +12,7 @@ import 'package:twitter_clone/features/tweet/view/twitter_reply_view.dart';
 import 'package:twitter_clone/features/tweet/widgets/carousel_image.dart';
 import 'package:twitter_clone/features/tweet/widgets/hashtags_text.dart';
 import 'package:twitter_clone/features/tweet/widgets/tweet_icon_button.dart';
+import 'package:twitter_clone/features/user_profile/view/user_profile_view.dart';
 import 'package:twitter_clone/models/tweet_model.dart';
 import 'package:twitter_clone/theme/pallete.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -33,26 +34,34 @@ class TweetCard extends ConsumerWidget {
               data: (user) {
                 return Padding(
                   padding: const EdgeInsets.only(right: 15.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        TwitterReplyView.route(tweet),
-                      );
-                    },
-                    child: Column(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                UserProfileView.route(user),
+                              );
+                            },
+                            child: Container(
                               margin: const EdgeInsets.all(10),
                               child: CircleAvatar(
                                 backgroundImage: NetworkImage(user.profilePic),
                                 radius: 35,
                               ),
                             ),
-                            Expanded(
+                          ),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  TwitterReplyView.route(tweet),
+                                );
+                              },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -84,7 +93,7 @@ class TweetCard extends ConsumerWidget {
                                   ),
 
                                   //user name & no. of hours since tweet
-                                  Row(
+                                  Wrap(
                                     children: [
                                       Container(
                                         margin: const EdgeInsets.only(right: 5),
@@ -99,11 +108,12 @@ class TweetCard extends ConsumerWidget {
                                       Text(
                                         '@${user.name} · ${timeago.format(
                                           tweet.tweetedAt,
-                                          //locale: 'en_short',
+                                          // locale: 'en_short',
                                         )}',
                                         style: const TextStyle(
-                                            fontSize: 17,
-                                            color: Pallete.greyColor),
+                                          fontSize: 17,
+                                          color: Pallete.greyColor,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -262,14 +272,14 @@ class TweetCard extends ConsumerWidget {
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                        const Divider(
-                          color: Pallete.greyColor,
-                          // thickness: 1,
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                      const Divider(
+                        color: Pallete.greyColor,
+                        // thickness: 1,
+                      ),
+                    ],
                   ),
                 );
               },
